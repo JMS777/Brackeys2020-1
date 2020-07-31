@@ -11,7 +11,7 @@ Deployed on our itch.io page [here](https://jms777.itch.io/brackeys2020-2).
 
 ### Git Branches
 -   master
-    -   Currently deployed version.
+    -   Currently deployed version..
     -   When pull request is completed, a build is automatically deployed to [itch.io](https://jms777.itch.io/brackeys2020-2)
 -   develop
     -   Used to stage new features before creating a pull request into master.
