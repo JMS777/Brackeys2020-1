@@ -7,10 +7,11 @@ Deployed on our itch.io page [here](https://jms777.itch.io/brackeys2020-2).
 ---
 
 ## Project Structure
--   ./Game - Source files for the Unity Project.
+-   ./Game - Source files for the Unity Project..
 
 ### Git Branches
 -   master
+    test
     -   Currently deployed version.
     -   When pull request is completed, a build is automatically deployed to [itch.io](https://jms777.itch.io/brackeys2020-2)
 -   develop
