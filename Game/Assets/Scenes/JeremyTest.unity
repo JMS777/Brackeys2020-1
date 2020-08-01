@@ -291,8 +291,8 @@ GameObject:
   - component: {fileID: 1037333185}
   - component: {fileID: 1037333189}
   - component: {fileID: 1037333188}
-  - component: {fileID: 1037333187}
   - component: {fileID: 1037333186}
+  - component: {fileID: 1037333187}
   - component: {fileID: 1037333190}
   m_Layer: 0
   m_Name: Player
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95ac5eebb20e413dadf7f4168edb3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EquipedWeapons:
+  WeaponSlots:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}

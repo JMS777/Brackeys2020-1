@@ -8,8 +8,8 @@ public class EquipmentSystem : MonoBehaviour
 {
     public event Action WeaponsChanged;
 
-    public int CurrentSlot { get; set; } = 0;
-    public Weapon[] EquipedWeapons;
+    public int CurrentSlot { get; private set; } = 0;
+    public Weapon[] WeaponSlots;
     public Armour Armour;
     public Weapon Unarmed;
 
@@ -17,9 +17,9 @@ public class EquipmentSystem : MonoBehaviour
     {
         get
         {
-            if (EquipedWeapons[CurrentSlot] != null)
+            if (WeaponSlots[CurrentSlot] != null)
             {
-                return EquipedWeapons[CurrentSlot];
+                return WeaponSlots[CurrentSlot];
             }
             else
             {
@@ -51,19 +51,19 @@ public class EquipmentSystem : MonoBehaviour
 
     public void EquipWeapon(Weapon weapon, int slot)
     {
-        if (slot > EquipedWeapons.Length - 1)
+        if (slot > WeaponSlots.Length - 1)
         {
             Debug.LogWarning("Weapon slot out of range.");
         }
 
         inventory.Remove(weapon);
 
-        if (EquipedWeapons[slot] != null)
+        if (WeaponSlots[slot] != null)
         {
-            inventory.Add(EquipedWeapons[slot]);
+            inventory.Add(WeaponSlots[slot]);
         }
         
-        EquipedWeapons[slot] = weapon;
+        WeaponSlots[slot] = weapon;
 
         WeaponsChanged?.Invoke();
     }
