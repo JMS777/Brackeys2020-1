@@ -28,7 +28,7 @@ public class CharacterMotor : MonoBehaviour
         if(isMoving){
 
         
-            if((transform.position - agent.destination).magnitude > 5){
+            if((transform.position - agent.destination).magnitude > 6){
                 animator.SetBool("Running", true);
                 animator.SetBool("Moving", false);
                 agent.speed = 5;
