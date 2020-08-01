@@ -23,7 +23,11 @@ public class InventorySlot : MonoBehaviour
 
         icon.sprite = item.Icon;
         icon.enabled = true;
-        discardButton.interactable = true;
+
+        if (!(inventoryUi.Inventory is ItemStore))
+        {
+            discardButton.interactable = true;
+        }
     }
 
     public void ClearSlot()
@@ -32,7 +36,11 @@ public class InventorySlot : MonoBehaviour
 
         icon.sprite = null;
         icon.enabled = false;
-        discardButton.interactable = false;
+
+        if (!(inventoryUi.Inventory is ItemStore))
+        {
+            discardButton.interactable = false;
+        }
     }
 
     public void ClickItem()
