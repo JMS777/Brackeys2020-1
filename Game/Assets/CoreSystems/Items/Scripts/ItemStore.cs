@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ItemStore : Inventory, IInteractable
 {
-    public Transform InteractionTransform { get; private set; }
+    public Transform interactionPoint;
+    public Vector3 InteractionPoint { get { return interactionPoint.position; } }
 
     public void Interact()
         => DisplayStore();

@@ -26,7 +26,7 @@ public class CombatSystem : MonoBehaviour
         
     }
 
-    public void Attack(DamageSystem enemy)
+    public void Attack(LifeSystem enemy)
     {
         var weaponDamage = equipment.WeaponDamage ?? Unarmed.Damage.ToArray();
 
