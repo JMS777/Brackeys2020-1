@@ -21,16 +21,14 @@ public class InventoryTest : MonoBehaviour
             chest.GetComponent<IInteractable>().Interact();
         }
 
+        if (Keyboard.current.pKey.wasPressedThisFrame)
+        {
+            ItemManagementUI.Instance.ToggleEquipment();
+        }
+
         if (Keyboard.current.iKey.wasPressedThisFrame)
         {
-            if (InventorySystem.Instance.playerInventoryUi.gameObject.activeSelf)
-            {
-                InventorySystem.Instance.CloseInventory();
-            }
-            else
-            {
-                InventorySystem.Instance.ShowPlayerInventory();
-            }
+            ItemManagementUI.Instance.ToggleInventory();
         }
     }
 }

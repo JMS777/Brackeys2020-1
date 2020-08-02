@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Basic Sword
   Icon: {fileID: 21300000, guid: 8a0cff489948d45eb831ae257564ae86, type: 3}
-  BaseDamage: 3
-  BaseDamageType: 0
+  equipmentSlot: 4
+  WeaponType: 0
+  Damage: []

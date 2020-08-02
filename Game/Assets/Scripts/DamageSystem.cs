@@ -35,17 +35,17 @@ public class DamageSystem : MonoBehaviour
         CurrentHealth = Mathf.Clamp(hp, 0, MaxHealth);
     }
 
-    public void Damage(int damage, DamageType type = DamageType.Physical)
+    public void Damage(DamageInfo damage)
     {
-        if (damage < 0)
+        if (damage.Value < 0)
         {
             Debug.LogWarning("Damange less than 0.");
             return;
         }
 
-        damage = ApplyArmourRating(damage, type);
+        var value = ApplyArmourRating(damage.Value, damage.DamageType);
 
-        CurrentHealth -= damage;
+        CurrentHealth -= value;
 
         if (CurrentHealth < 0)
         {
@@ -62,7 +62,8 @@ public class DamageSystem : MonoBehaviour
 
     private int ApplyArmourRating(int damage, DamageType type)
     {
-        Armour.ArmourRating? relevantRating = equipment.Armour.Ratings.FirstOrDefault(p => p.Type == type);
+        var armourRatings = equipment.ArmourResistances;
+        DamageInfo? relevantRating = armourRatings.FirstOrDefault(p => p.DamageType == type);
 
         if (relevantRating.HasValue)
         {

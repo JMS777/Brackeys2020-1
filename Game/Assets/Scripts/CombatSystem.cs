@@ -7,6 +7,8 @@ public class CombatSystem : MonoBehaviour
 {
     private EquipmentSystem equipment;
 
+    public Weapon Unarmed;
+
     void Awake()
     {
         equipment = GetComponent<EquipmentSystem>();
@@ -26,7 +28,11 @@ public class CombatSystem : MonoBehaviour
 
     public void Attack(DamageSystem enemy)
     {
-        var weapon = equipment.CurrentWeapon;
-        enemy.Damage(weapon.BaseDamage, equipment.CurrentWeapon.BaseDamageType);
+        var weaponDamage = equipment.WeaponDamage ?? Unarmed.Damage.ToArray();
+
+        foreach (var damage in weaponDamage)
+        {
+            enemy.Damage(damage);
+        }
     }
 }

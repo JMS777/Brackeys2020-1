@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Unarmed
   Icon: {fileID: 21300000, guid: a5714a857aa1c4f73aea93cf3f7f0b6d, type: 3}
-  BaseDamage: 1
-  BaseDamageType: 0
+  equipmentSlot: 4
+  WeaponType: 0
+  Damage: []
