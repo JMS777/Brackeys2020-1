@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     public ItemStore temp;
     public IInteractable NextInteraction { get; private set; }
+    private IInteractable lastInteraction;
     
     private CharacterMotor motor;
 
@@ -46,7 +47,27 @@ public class PlayerController : MonoBehaviour
         if (interactable != null && interactable == NextInteraction)
         {
             interactable.Interact();
+
+
+            StartCoroutine(LookAtInteraction(other.transform.parent));
+            lastInteraction = NextInteraction;
             NextInteraction = null;
         }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        var interactable = other.transform.parent.GetComponent<IInteractable>();
+        if (interactable != null && interactable == lastInteraction && lastInteraction is ItemStore)
+        {
+            ((ItemStore)lastInteraction).Close();
+        }
+    }
+
+    IEnumerator LookAtInteraction(Transform interaction)
+    {
+        yield return new WaitForSeconds(1);
+
+        transform.LookAt(interaction, Vector3.up);
     }
 }

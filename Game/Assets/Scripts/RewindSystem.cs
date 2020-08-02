@@ -28,7 +28,6 @@ public class RewindSystem : MonoBehaviour
     private Inventory inventory;
     private LifeSystem damageSystem;
 
-
     private IList<CharacterSnapshot> snapshots = new List<CharacterSnapshot>();
 
     void Awake()
