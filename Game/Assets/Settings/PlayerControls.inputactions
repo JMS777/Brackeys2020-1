@@ -20,6 +20,14 @@
                     "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Attack",
+                    "type": "Button",
+                    "id": "f314fb05-24d7-4b77-965b-eac17483c688",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -53,6 +61,17 @@
                     "processors": "",
                     "groups": ";Touch",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "901d02e9-608a-4962-939f-ec43c8343585",
+                    "path": "<Keyboard>/#(A)",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Attack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
