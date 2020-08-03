@@ -22,6 +22,16 @@ public class PlayerMovement : MonoBehaviour
     public GameObject tileChecker;
     public GameObject EnemyList;
     // Start is called before the first frame update
+    private Action currentAction;
+
+    enum Action{
+        Move,
+        Attack,
+        Interact
+    }
+
+
+
     void Start()
     {
         characterMotor = GetComponent<CharacterMotor>();
@@ -39,30 +49,26 @@ public class PlayerMovement : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hitData;
         if(!characterMotor.isMoving && Physics.Raycast(ray, out hitData, 1000)) {
-            switch(hitData.transform.gameObject.tag){
-            case "Enemy":
-            //Debug.Log("Enemy");
-                main.startColor = Color.red;
-                break;
-            case "Chest":
-                break;
-            default:
-            //Debug.Log("Tile");
-                main.startColor = Color.cyan;
-                tileChecker.transform.position = updatedPos;
-                foreach (CapsuleCollider enemy in list){
-                    if(collider.bounds.Intersects(enemy.bounds)){
-                        Debug.Log("Enemy on tile");
-                        main.startColor = Color.red;
-                    }
-                }
-                updatedPos = new Vector3(Mathf.Round(hitData.point.x/5)*5, hitData.point.y, Mathf.Round(hitData.point.z/5)*5);
-                playerMarker.transform.position = updatedPos;
-                playerMarker.SetActive(true);
-                break;
-
-        }
             
+            // Get tile position that cursor is over
+            updatedPos = new Vector3(Mathf.Round(hitData.point.x/5)*5, 0.1f, Mathf.Round(hitData.point.z/5)*5);
+            playerMarker.transform.position = updatedPos;
+            playerMarker.SetActive(true);
+
+            // Moves the tile checker to that tile
+            tileChecker.transform.position = updatedPos;
+
+            // Check if an enemy is on that tile
+            foreach (CapsuleCollider enemy in list){
+                if(collider.bounds.Intersects(enemy.bounds)){
+                    currentAction = Action.Attack;
+                    main.startColor = Color.red;                    
+                }
+                else{
+                    currentAction = Action.Move;
+                    main.startColor = Color.cyan;
+                }
+            }
             isValid = true;
         }
         else{
@@ -70,11 +76,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnMove(InputAction.CallbackContext context){
+    public void OnAction(InputAction.CallbackContext context){
         if(!characterMotor.isMoving){
-            //mousePosition = Mouse.current.position;
-            if(isValid){
-                characterMotor.setDestination(updatedPos);
+            switch(currentAction){
+                case Action.Attack:
+                    // Call attack interaction
+                    break;
+                case Action.Move:
+                    characterMotor.setDestination(updatedPos);
+                    break;
+                case Action.Interact:
+                    break;
             }
         }
     }

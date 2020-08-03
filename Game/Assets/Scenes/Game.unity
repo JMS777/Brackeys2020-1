@@ -6141,8 +6141,8 @@ ParticleSystem:
       properties: 0
       emitProbability: 1
   LightsModule:
-    enabled: 0
-    ratio: 1
+    enabled: 1
+    ratio: 0.4
     light: {fileID: 0}
     randomDistribution: 0
     color: 1
@@ -6151,7 +6151,7 @@ ParticleSystem:
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 1.44
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -6204,7 +6204,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.33
+      scalar: 1.56
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -7168,7 +7168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &623763730
 Transform:
   m_ObjectHideFlags: 0
@@ -11904,7 +11904,7 @@ ParticleSystem:
       emitProbability: 1
   LightsModule:
     enabled: 0
-    ratio: 0
+    ratio: 1
     light: {fileID: 0}
     randomDistribution: 0
     color: 1
@@ -11913,7 +11913,7 @@ ParticleSystem:
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.16
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11966,7 +11966,7 @@ ParticleSystem:
     intensityCurve:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.16
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13680,8 +13680,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 989071581}
-  m_LocalRotation: {x: 0.23029904, y: -0.011876042, z: 0.0028108107, w: 0.97304344}
-  m_LocalPosition: {x: -0.015535029, y: 6.0893507, z: -8.793676}
+  m_LocalRotation: {x: 0.2302802, y: -0.017197961, z: 0.0040703975, w: 0.9729639}
+  m_LocalPosition: {x: -0.022494784, y: 6.0893507, z: -8.793885}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15180,7 +15180,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1323613496}
-  m_LocalRotation: {x: 0.19859569, y: -0.000000008431828, z: 0.0000000017085563, w: 0.9800815}
+  m_LocalRotation: {x: 0.19859569, y: 0.000000008431828, z: -0.0000000017085563, w: 0.9800815}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -15424,7 +15424,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1464299969}
-  m_LocalRotation: {x: 0.23029901, y: -0.01187604, z: 0.00281081, w: 0.9730434}
+  m_LocalRotation: {x: 0.23028019, y: -0.017197963, z: 0.004070397, w: 0.9729639}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -16298,7 +16298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1778049849
 Transform:
   m_ObjectHideFlags: 0
@@ -16960,7 +16960,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2104337242}
         m_TargetAssemblyTypeName: PlayerMovement, Assembly-CSharp
-        m_MethodName: OnMove
+        m_MethodName: OnAction
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

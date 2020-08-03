@@ -14,7 +14,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Move",
+                    "name": "Action",
                     "type": "Value",
                     "id": "72f0edd6-86f6-41d3-80cc-12d133354c4d",
                     "expectedControlType": "Vector3",
@@ -49,7 +49,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Move",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -60,7 +60,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
-                    "action": "Move",
+                    "action": "Action",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
