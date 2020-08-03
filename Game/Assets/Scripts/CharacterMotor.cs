@@ -30,10 +30,7 @@ public class CharacterMotor : MonoBehaviour
 
     void FixedUpdate(){
         var horizontalVelocity = new Vector3(agent.velocity.x, 0, agent.velocity.z);
-        isMoving = horizontalVelocity.magnitude > 0.5;
-        Debug.Log(agent.velocity);
-        
-        
+        isMoving = horizontalVelocity.magnitude > 0.5;        
             if(isMoving){
                 playerMarker.transform.position = agent.destination;
                 playerMarker.SetActive(true);
