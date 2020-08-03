@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerable<IInteractable> interactableObjects;
     private IInteractable currentTarget;
     private PlayerController playerController;
+    public Vector3 CurrentLocation;
 
     enum Action{
         Move,
@@ -74,7 +75,13 @@ public class PlayerMovement : MonoBehaviour
             foreach (IInteractable interactable in interactableObjects){
                 if(collider.bounds.Contains(interactable.gameObject.transform.position)){
                     //interactable.gameObject.SetActive(false);
-                    main.startColor = Color.red;   
+                    if(interactable.gameObject.tag.Equals("Enemy")){
+                        main.startColor = Color.red;  
+                    }
+                    else{
+                        main.startColor = Color.yellow;
+                    }
+                     
                     currentAction = Action.Interact;           
                     currentTarget = interactable;      
                 }
@@ -85,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void OnAction(InputAction.CallbackContext context){
+        CurrentLocation = transform.position;
         if(context.performed){
             if(!characterMotor.isMoving){
                 switch(currentAction){

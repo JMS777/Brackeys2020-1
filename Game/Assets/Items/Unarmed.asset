@@ -18,4 +18,4 @@ MonoBehaviour:
   WeaponType: 0
   Damage:
   - DamageType: 0
-    Value: 10
+    Value: 1

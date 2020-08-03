@@ -1465,7 +1465,7 @@ GameObject:
   - component: {fileID: 387321384}
   m_Layer: 0
   m_Name: EnemyBob
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3719,6 +3719,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2147456798825524872, guid: 9f2f970339a172a4a8471fa7525a88af, type: 3}
       propertyPath: m_Name
+      value: Chest
+      objectReference: {fileID: 0}
+    - target: {fileID: 2147456798825524872, guid: 9f2f970339a172a4a8471fa7525a88af, type: 3}
+      propertyPath: m_TagString
       value: Chest
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6776,7 +6780,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925667763}
-  m_LocalRotation: {x: 0.30170697, y: 0.000000028413558, z: -0.000000008991568, w: 0.95340073}
+  m_LocalRotation: {x: 0.30170697, y: 2.1074652e-15, z: 3.674005e-16, w: 0.95340073}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7436,6 +7440,10 @@ PrefabInstance:
     - target: {fileID: 7967894561488071819, guid: f4cd5e93416ed46d89412cf7ee4bce25, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7967894562070534320, guid: f4cd5e93416ed46d89412cf7ee4bce25, type: 3}
+      propertyPath: m_Speed
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7967894562070534321, guid: f4cd5e93416ed46d89412cf7ee4bce25, type: 3}
       propertyPath: playerMarker

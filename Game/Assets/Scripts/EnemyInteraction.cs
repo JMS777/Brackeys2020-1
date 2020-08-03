@@ -26,6 +26,7 @@ public class EnemyInteraction : MonoBehaviour, IInteractable
         intiatingCombatSystem.Attack(lifeSystem);
         characterMotor.OnHit();
         StartCoroutine(Retaliate(intiatingLifeSystem));
+        
 
     }
 
@@ -36,6 +37,8 @@ public class EnemyInteraction : MonoBehaviour, IInteractable
         characterMotor.OnAttack();
         combatSystem.Attack(targetLifeSystem);
         targetLifeSystem.GetComponent<CharacterMotor>().OnHit();
+        yield return new WaitForSeconds(2);
+        targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetLifeSystem.GetComponent<PlayerMovement>().CurrentLocation);
     }
 
 }
