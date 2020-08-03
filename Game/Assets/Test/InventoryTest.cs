@@ -18,7 +18,7 @@ public class InventoryTest : MonoBehaviour
     {
         if (Keyboard.current.eKey.wasPressedThisFrame)
         {
-            chest.GetComponent<IInteractable>().Interact();
+            chest.GetComponent<IInteractable>().Interact(null);
         }
 
         if (Keyboard.current.pKey.wasPressedThisFrame)

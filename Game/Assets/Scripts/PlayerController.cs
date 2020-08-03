@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         var interactable = other.transform.parent.GetComponent<IInteractable>();
         if (interactable != null && interactable == NextInteraction)
         {
-            interactable.Interact();
+            interactable.Interact(gameObject);
 
 
             StartCoroutine(LookAtInteraction(other.transform.parent));

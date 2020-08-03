@@ -2,7 +2,7 @@ using UnityEngine;
 
 public interface IInteractable
 {
-    void Interact();
+    void Interact(GameObject intiatingObject);
 
     GameObject gameObject { get; }
 

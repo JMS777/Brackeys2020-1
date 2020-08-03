@@ -23,10 +23,12 @@ public class LifeSystem : MonoBehaviour
     public int CurrentHealth { get; private set; }
 
     private EquipmentSystem equipment;
+    private Animator animator;
     
     void Awake()
     {
         equipment = GetComponent<EquipmentSystem>();
+        animator = GetComponentInChildren<Animator>();
         CurrentHealth = MaxHealth;
     }
 
@@ -42,8 +44,8 @@ public class LifeSystem : MonoBehaviour
             Debug.LogWarning("Damange less than 0.");
             return;
         }
-
         var value = ApplyArmourRating(damage.Value, damage.DamageType);
+        Debug.Log(damage.Value + ", " + value);
 
         CurrentHealth -= value;
 
@@ -56,7 +58,7 @@ public class LifeSystem : MonoBehaviour
 
         if (CurrentHealth == 0)
         {
-            PlayerDied?.Invoke();
+            OnDeath();
         }
     }
 
@@ -67,8 +69,8 @@ public class LifeSystem : MonoBehaviour
 
         if (relevantRating.HasValue)
         {
-            var armourEffective = UnityEngine.Random.Range(0, 1) < armourEffectiveness;
-            var armourBlocked = UnityEngine.Random.Range(0, 1) < armourBlockChance;
+            var armourEffective = UnityEngine.Random.Range(0.0f, 1.0f) < armourEffectiveness;
+            var armourBlocked = UnityEngine.Random.Range(0.0f, 1.0f) < armourBlockChance;
 
             if (armourBlocked)
             {
@@ -81,5 +83,11 @@ public class LifeSystem : MonoBehaviour
         }
 
         return damage;
+    }
+
+    private void OnDeath(){
+        
+        animator.SetTrigger("Death");
+        PlayerDied?.Invoke();
     }
 }

@@ -41,12 +41,18 @@ public class PlayerMovement : MonoBehaviour
         collider = tileChecker.GetComponent<BoxCollider>();
         particleSystem = playerMarker.GetComponentInChildren<ParticleSystem>();
         interactableObjects = FindObjectsOfType<MonoBehaviour>().OfType<IInteractable>();
+        foreach(IInteractable a in interactableObjects){
+            Debug.Log(a);
+        }
         playerController = GetComponent<PlayerController>();
         //tileChecker.SetActive(false);
     }
     
 
     void Update(){
+        if(characterMotor.isMoving){
+            playerMarker.transform.position = characterMotor.NextPosition;
+        }
         var main = particleSystem.main;
         // Gets list of current enemies
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -61,23 +67,20 @@ public class PlayerMovement : MonoBehaviour
             // Moves the tile checker to that tile
             tileChecker.transform.position = updatedPos;
 
+            currentAction = Action.Move;
+            main.startColor = Color.cyan;    
+
             // Check if an enemy is on that tile
             foreach (IInteractable interactable in interactableObjects){
-                if(collider.bounds.Intersects(interactable.gameObject.GetComponent<Collider>().bounds)){
+                if(collider.bounds.Contains(interactable.gameObject.transform.position)){
+                    //interactable.gameObject.SetActive(false);
                     main.startColor = Color.red;   
                     currentAction = Action.Interact;           
                     currentTarget = interactable;      
                 }
-                else{
-                    currentAction = Action.Move;
-                    main.startColor = Color.cyan;
-                }
             }
 
             isValid = true;
-        }
-        else{
-            playerMarker.SetActive(false);
         }
     }
 
