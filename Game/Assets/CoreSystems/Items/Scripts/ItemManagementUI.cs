@@ -22,6 +22,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
 
         equipmentUI.PanelOpened += ShowInventory;
         itemStoreUi.PanelOpened += ShowInventory;
+        itemStoreUi.PanelClosed += ItemStoreClosed;
     }
 
     public void ShowInventory()
@@ -43,10 +44,23 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
     public void ToggleInventory() => TogglePanel(inventoryUi);
     public void ToggleEquipment() => TogglePanel(equipmentUI);
 
+    public void CloseItemStore()
+    {
+        itemStoreUi.Close();
+    }
+
     private void InventoryClosed()
     {
         itemStoreUi.Close();
         equipmentUI.Close();
+    }
+
+    private void ItemStoreClosed()
+    {
+        if (itemStoreUi.Context is ItemStore)
+        {
+            ((ItemStore)itemStoreUi.Context).CloseAnim();
+        }
     }
 
     private void TogglePanel<T>(IItemUIPanel<T> panel)
