@@ -14,7 +14,7 @@ public class ItemStore : Inventory, IInteractable
         animator = GetComponent<Animator>();
     }
 
-    public void Interact()
+    public void Interact(GameObject intiatingObject)
         => DisplayStore();
 
     private void DisplayStore()

@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour
         collider = tileChecker.GetComponent<BoxCollider>();
         particleSystem = playerMarker.GetComponentInChildren<ParticleSystem>();
         interactableObjects = FindObjectsOfType<MonoBehaviour>().OfType<IInteractable>();
+        foreach(IInteractable a in interactableObjects){
+            Debug.Log(a);
+        }
         playerController = GetComponent<PlayerController>();
         //tileChecker.SetActive(false);
     }
@@ -63,7 +66,8 @@ public class PlayerMovement : MonoBehaviour
 
             // Check if an enemy is on that tile
             foreach (IInteractable interactable in interactableObjects){
-                if(collider.bounds.Intersects(interactable.gameObject.GetComponent<Collider>().bounds)){
+                if(collider.bounds.Contains(interactable.gameObject.transform.position)){
+                    Debug.Log(interactable.gameObject.transform.localPosition);
                     main.startColor = Color.red;   
                     currentAction = Action.Interact;           
                     currentTarget = interactable;      
