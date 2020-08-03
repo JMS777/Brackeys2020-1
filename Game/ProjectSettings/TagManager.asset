@@ -6,10 +6,6 @@ TagManager:
   tags:
   - Enemy
   - Collide
-<<<<<<< HEAD
-  - Tile
-=======
->>>>>>> develop
   layers:
   - Default
   - TransparentFX
