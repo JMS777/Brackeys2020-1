@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
-
+using System.Linq;
 
 [RequireComponent(typeof(CharacterMotor))]
 public class PlayerMovement : MonoBehaviour
@@ -13,17 +13,17 @@ public class PlayerMovement : MonoBehaviour
     
     private CharacterMotor characterMotor;
 
-    private BoxCollider collider;
+    private new BoxCollider collider;
     private Vector3 updatedPos;
     private bool isValid;
-    private ParticleSystem particleSystem;
+    private new ParticleSystem particleSystem;
     
     public GameObject playerMarker;
     public GameObject tileChecker;
     //public GameObject EnemyList;
     // Start is called before the first frame update
     private Action currentAction;
-    private IEnumerable<ItemStore> interactableObjects;
+    private IEnumerable<IInteractable> interactableObjects;
     private IInteractable currentTarget;
     private PlayerController playerController;
 
@@ -40,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         playerMarker.SetActive(false);
         collider = tileChecker.GetComponent<BoxCollider>();
         particleSystem = playerMarker.GetComponentInChildren<ParticleSystem>();
-        interactableObjects = FindObjectsOfType<ItemStore>();
+        interactableObjects = FindObjectsOfType<MonoBehaviour>().OfType<IInteractable>();
         playerController = GetComponent<PlayerController>();
         //tileChecker.SetActive(false);
     }
@@ -62,8 +62,8 @@ public class PlayerMovement : MonoBehaviour
             tileChecker.transform.position = updatedPos;
 
             // Check if an enemy is on that tile
-            foreach (ItemStore interactable in interactableObjects){
-                if(collider.bounds.Intersects(interactable.GetComponent<Collider>().bounds)){
+            foreach (IInteractable interactable in interactableObjects){
+                if(collider.bounds.Intersects(interactable.gameObject.GetComponent<Collider>().bounds)){
                     main.startColor = Color.red;   
                     currentAction = Action.Interact;           
                     currentTarget = interactable;      
