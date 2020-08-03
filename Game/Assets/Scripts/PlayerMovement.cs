@@ -20,13 +20,15 @@ public class PlayerMovement : MonoBehaviour
     
     public GameObject playerMarker;
     public GameObject tileChecker;
-    public GameObject EnemyList;
+    //public GameObject EnemyList;
     // Start is called before the first frame update
     private Action currentAction;
+    private IEnumerable<ItemStore> interactableObjects;
+    private IInteractable currentTarget;
+    private PlayerController playerController;
 
     enum Action{
         Move,
-        Attack,
         Interact
     }
 
@@ -38,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
         playerMarker.SetActive(false);
         collider = tileChecker.GetComponent<BoxCollider>();
         particleSystem = playerMarker.GetComponentInChildren<ParticleSystem>();
+        interactableObjects = FindObjectsOfType<ItemStore>();
+        playerController = GetComponent<PlayerController>();
         //tileChecker.SetActive(false);
     }
     
@@ -45,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
     void Update(){
         var main = particleSystem.main;
         // Gets list of current enemies
-        CapsuleCollider[] list = EnemyList.gameObject.GetComponentsInChildren<CapsuleCollider>();
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hitData;
         if(!characterMotor.isMoving && Physics.Raycast(ray, out hitData, 1000)) {
@@ -59,16 +62,18 @@ public class PlayerMovement : MonoBehaviour
             tileChecker.transform.position = updatedPos;
 
             // Check if an enemy is on that tile
-            foreach (CapsuleCollider enemy in list){
-                if(collider.bounds.Intersects(enemy.bounds)){
-                    currentAction = Action.Attack;
-                    main.startColor = Color.red;                    
+            foreach (ItemStore interactable in interactableObjects){
+                if(collider.bounds.Intersects(interactable.GetComponent<Collider>().bounds)){
+                    main.startColor = Color.red;   
+                    currentAction = Action.Interact;           
+                    currentTarget = interactable;      
                 }
                 else{
                     currentAction = Action.Move;
                     main.startColor = Color.cyan;
                 }
             }
+
             isValid = true;
         }
         else{
@@ -77,16 +82,17 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void OnAction(InputAction.CallbackContext context){
-        if(!characterMotor.isMoving){
-            switch(currentAction){
-                case Action.Attack:
-                    // Call attack interaction
-                    break;
-                case Action.Move:
-                    characterMotor.setDestination(updatedPos);
-                    break;
-                case Action.Interact:
-                    break;
+        if(context.performed){
+            if(!characterMotor.isMoving){
+                switch(currentAction){
+                    case Action.Move:
+                        characterMotor.setDestination(updatedPos);
+                        break;
+                    case Action.Interact:
+                        playerController.SetInteraction(currentTarget);
+                        //characterMotor.setDestination(currentTarget.InteractionPoint);
+                        break;
+                }
             }
         }
     }
