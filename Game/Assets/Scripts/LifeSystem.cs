@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(EquipmentSystem))]
-public class DamageSystem : MonoBehaviour
+public class LifeSystem : MonoBehaviour
 {
     public event Action<int> PlayerDamaged;
     public event Action PlayerDied;

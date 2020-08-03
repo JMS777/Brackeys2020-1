@@ -5,7 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(EquipmentSystem))]
 [RequireComponent(typeof(Inventory))]
-[RequireComponent(typeof(DamageSystem))]
+[RequireComponent(typeof(LifeSystem))]
 public class RewindSystem : MonoBehaviour
 {
     public struct CharacterSnapshot
@@ -15,7 +15,7 @@ public class RewindSystem : MonoBehaviour
         public List<Item> Inventory;
         public Equipment[] Equipment;
 
-        public CharacterSnapshot(int turn, EquipmentSystem equipment, DamageSystem damageSystem, Inventory inventory)
+        public CharacterSnapshot(int turn, EquipmentSystem equipment, LifeSystem damageSystem, Inventory inventory)
         {
             Turn = turn;
             Health = damageSystem.CurrentHealth;
@@ -26,8 +26,7 @@ public class RewindSystem : MonoBehaviour
 
     private EquipmentSystem equipment;
     private Inventory inventory;
-    private DamageSystem damageSystem;
-
+    private LifeSystem damageSystem;
 
     private IList<CharacterSnapshot> snapshots = new List<CharacterSnapshot>();
 
@@ -35,7 +34,7 @@ public class RewindSystem : MonoBehaviour
     {
         equipment = GetComponent<EquipmentSystem>();
         inventory = GetComponent<Inventory>();
-        damageSystem = GetComponent<DamageSystem>();
+        damageSystem = GetComponent<LifeSystem>();
     }
 
     public void TakeSnapshot(int turn)

@@ -4,5 +4,5 @@ public interface IInteractable
 {
     void Interact();
 
-    Transform InteractionTransform { get; }
+    Vector3 InteractionPoint { get; }
 }
