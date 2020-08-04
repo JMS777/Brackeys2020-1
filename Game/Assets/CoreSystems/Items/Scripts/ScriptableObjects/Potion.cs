@@ -1,8 +1,26 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName="New Potion", menuName = "Inventory/Potion")]
 public class Potion : Item
 {
-    public PotionEffect Effect;
-    public int Value;
+    public PotionType PotionType;
+    public int Strength;
+    public IEnumerable<StatusEffect> Effects;
+}
+
+public struct StatusEffect
+{
+    public EffectTypes EffectTypes;
+    public int Strength;
+}
+
+public enum EffectTypes
+{
+    IncreaseDamage
+}
+
+public enum PotionType
+{
+    RestoreActionPoints
 }

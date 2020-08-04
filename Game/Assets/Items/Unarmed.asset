@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Unarmed
   Icon: {fileID: 21300000, guid: a5714a857aa1c4f73aea93cf3f7f0b6d, type: 3}
   equipmentSlot: 4
+  gameObject: {fileID: 0}
   WeaponType: 0
   Damage:
   - DamageType: 0
