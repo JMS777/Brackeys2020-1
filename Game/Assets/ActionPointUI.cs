@@ -21,6 +21,7 @@ public class ActionPointUI : MonoBehaviour
 
     private void UpdateUI(int actionPoints)
     {
+        Debug.Log(actionPoints + ", " + actionPointObjects.Count);
         while (actionPointObjects.Count < actionPoints)
         {
             actionPointObjects.Add(Instantiate(ActionPointPrefab, transform));
@@ -28,7 +29,9 @@ public class ActionPointUI : MonoBehaviour
 
         while (actionPointObjects.Count > actionPoints)
         {
-            actionPointObjects.Remove(actionPointObjects.Last());
+            var actionPoint = actionPointObjects.Last();
+            actionPointObjects.Remove(actionPoint);
+            Destroy(actionPoint.gameObject);
         }
     }
 }

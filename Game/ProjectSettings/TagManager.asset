@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Collide
   - Tile
+  - Chest
   layers:
   - Default
   - TransparentFX

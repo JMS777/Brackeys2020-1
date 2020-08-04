@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterMotor : MonoBehaviour
 {
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     Animator animator;
 
     public bool isMoving;
@@ -39,7 +39,7 @@ public class CharacterMotor : MonoBehaviour
                 if((transform.position - agent.destination).magnitude > 6){
                     animator.SetBool("Running", true);
                     animator.SetBool("Moving", false);
-                    agent.speed = 5;
+                    agent.speed = 6;
                 }
                 else {
                     animator.SetBool("Moving",true);
