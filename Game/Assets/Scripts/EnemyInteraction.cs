@@ -38,7 +38,8 @@ public class EnemyInteraction : MonoBehaviour, IInteractable
         combatSystem.Attack(targetLifeSystem);
         targetLifeSystem.GetComponent<CharacterMotor>().OnHit();
         yield return new WaitForSeconds(2);
-        targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetLifeSystem.GetComponent<PlayerMovement>().CurrentLocation);
+        var targetDestination = transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5;
+        targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
     }
 
 }
