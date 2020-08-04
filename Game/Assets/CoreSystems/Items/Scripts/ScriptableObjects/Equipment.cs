@@ -5,6 +5,7 @@ using UnityEngine;
 public class Equipment : Item
 {
     public EquipmentSlot equipmentSlot;
+    public GameObject gameObject;
 
     public override void Use(GameObject parent)
     {
