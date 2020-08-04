@@ -89,15 +89,23 @@ public class PlayerMovement : MonoBehaviour
 
             isValid = true;
         }
+        Debug.Log(remainingDistance(updatedPos));
     }
 
     public void OnAction(InputAction.CallbackContext context){
         CurrentLocation = transform.position;
+        //Debug.Log(remainingDistance());
+        //CalculateDistance();
         if(context.performed){
+            
             if(!characterMotor.isMoving){
+                
                 switch(currentAction){
                     case Action.Move:
+                        //Debug.Log(remainingDistance(updatedPos));
                         characterMotor.setDestination(updatedPos);
+                        
+                        
                         break;
                     case Action.Interact:
                         playerController.SetInteraction(currentTarget);
@@ -106,5 +114,33 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+    }
+
+    // private float CalculateDistance(){
+    //     //float resultDistance = 0.0f;
+        
+    //     NavMeshPath currentPath = characterMotor.agent.path;
+    //     Vector3[] corners = null;
+    //     corners = characterMotor.agent.path.corners;
+    //     Debug.Log(corners.Length);
+    //     Vector3[] updatedCorners = new Vector3[corners.Length];
+    //     for(int i = 0; i < corners.Length - 1; ++i){
+    //         updatedCorners[i] = new Vector3(Mathf.Round(corners[i].x/5)*5, 0.1f, Mathf.Round(corners[i].z/5)*5);
+    //     }
+    //     return remainingDistance();
+    // }
+
+    private float remainingDistance(Vector3 position){
+        NavMeshPath path = new NavMeshPath();
+        NavMesh.CalculatePath(transform.position, position, NavMesh.AllAreas, path);
+        
+        
+        Vector3[] points = path.corners;
+        if(points.Length < 2) return 0;
+        float distance = 0;
+        for(int i = 0; i < points.Length - 1; ++i){
+            distance += Vector3.Distance(points[i], points[i + 1]);
+        }
+        return distance;
     }
 }

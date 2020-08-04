@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class CharacterMotor : MonoBehaviour
 {
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     Animator animator;
 
     public bool isMoving;
