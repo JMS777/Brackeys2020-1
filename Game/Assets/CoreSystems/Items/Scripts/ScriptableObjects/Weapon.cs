@@ -14,5 +14,6 @@ public enum WeaponType
     OneHanded,
     TwoHanded,
     Staff,
-    Bow
+    Bow,
+    Unarmed
 }

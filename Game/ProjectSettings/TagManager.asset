@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Collide
+  - Tile
   layers:
   - Default
   - TransparentFX

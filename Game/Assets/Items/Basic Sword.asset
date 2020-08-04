@@ -15,5 +15,8 @@ MonoBehaviour:
   Name: Basic Sword
   Icon: {fileID: 21300000, guid: 8a0cff489948d45eb831ae257564ae86, type: 3}
   equipmentSlot: 4
+  gameObject: {fileID: 0}
   WeaponType: 0
-  Damage: []
+  Damage:
+  - DamageType: 0
+    Value: 2

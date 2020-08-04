@@ -6,6 +6,7 @@ using UnityEngine;
 public class Armour : Equipment
 {
     public List<DamageInfo> Resistances;
+    public IEnumerable<StatusEffect> Effects;
 }
 
 [Serializable]
