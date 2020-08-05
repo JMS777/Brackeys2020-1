@@ -26,7 +26,7 @@ public class InventorySlot : MonoBehaviour
         icon.enabled = true;
         slotButton.interactable = true;
 
-        if (!(inventoryUi.Context is ItemStore))
+        if (inventoryUi.Context.IsPrimaryInventory)
         {
             discardButton.interactable = true;
         }
@@ -41,7 +41,7 @@ public class InventorySlot : MonoBehaviour
 
         slotButton.interactable = false;
 
-        if (!(inventoryUi.Context is ItemStore))
+        if (inventoryUi.Context.IsPrimaryInventory)
         {
             discardButton.interactable = false;
         }
@@ -51,7 +51,7 @@ public class InventorySlot : MonoBehaviour
     {
         if (item != null)
         {
-            if (inventoryUi.Context is ItemStore)
+            if (!inventoryUi.Context.IsPrimaryInventory)
             {
                 ItemManagementUI.Instance.TransferToInventory(item);
             }
