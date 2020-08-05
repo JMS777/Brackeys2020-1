@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     {
         NextInteraction = interactableObject;
 
-        motor.setDestination(NextInteraction.InteractionPoint);
+        motor.setDestination(NextInteraction.GetInteractionPoint(transform));
 
         // Todo: Remove action points (or maybe keep that in the player movement script along with everything else).
     }

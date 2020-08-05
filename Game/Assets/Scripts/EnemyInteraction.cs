@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof (LifeSystem), typeof (CombatSystem))]
-public class EnemyInteraction : MonoBehaviour, IInteractable
+public class EnemyInteraction : Interactable
 {
     public Transform interactionPoint;
     public Vector3 InteractionPoint { get { return interactionPoint.position; } }
@@ -11,13 +11,14 @@ public class EnemyInteraction : MonoBehaviour, IInteractable
     private LifeSystem lifeSystem;
     private CharacterMotor characterMotor;
 
-    void Awake(){
+    protected override void Awake(){
+        base.Awake();
         lifeSystem = GetComponent<LifeSystem>();
         combatSystem = GetComponent<CombatSystem>();
         characterMotor = GetComponent<CharacterMotor>();
     }
 
-    public void Interact(GameObject intiatingObject)
+    public override void Interact(GameObject intiatingObject)
     {
         Debug.Log("Attacking Enemy");
         var intiatingLifeSystem = intiatingObject.GetComponent<LifeSystem>();
