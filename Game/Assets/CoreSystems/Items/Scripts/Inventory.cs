@@ -11,9 +11,16 @@ public class Inventory : MonoBehaviour, IItemSystem
     [SerializeField]
     private new string name = "Inventory";
     public string Name { get { return name; } }
-    
+
     public int size = 10;
     public List<Item> items = new List<Item>();
+
+    public bool IsPrimaryInventory { get; private set; } = false;
+
+    public void SetPrimary()
+    {
+        IsPrimaryInventory= true;
+    }
 
     public bool Add(Item item)
     {
