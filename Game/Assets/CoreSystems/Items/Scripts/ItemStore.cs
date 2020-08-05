@@ -2,24 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemStore : Inventory, IInteractable
+[RequireComponent(typeof(Inventory))]
+public class ItemStore : Interactable
 {
-    public Transform interactionPoint;
-    public Vector3 InteractionPoint { get { return interactionPoint.position; } }
+
+    private Inventory inventory;
 
     private Animator animator;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         animator = GetComponent<Animator>();
+        inventory = GetComponent<Inventory>();
+
+        inventory.InventoryClosed += CloseAnim;
     }
 
-    public void Interact(GameObject intiatingObject)
+    public override void Interact(GameObject intiatingObject)
         => DisplayStore();
 
     private void DisplayStore()
     {
-        ItemManagementUI.Instance.ShowItemStore(this);
+        ItemManagementUI.Instance.ShowItemStore(inventory);
         animator.SetTrigger("Open");
     }
 
@@ -36,11 +41,11 @@ public class ItemStore : Inventory, IInteractable
 
     public bool TakeItem(Item item)
     {
-        return Remove(item);
+        return inventory.Remove(item);
     }
 
     public bool PlaceItem(Item item)
     {
-        return Add(item);
+        return inventory.Add(item);
     }
 }
