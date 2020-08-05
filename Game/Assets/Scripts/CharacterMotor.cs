@@ -29,6 +29,10 @@ public class CharacterMotor : MonoBehaviour
         agent.destination = pos;
     }
 
+    public void SetPath(NavMeshPath path){
+        agent.SetPath(path);
+    }
+
     void FixedUpdate(){
         var horizontalVelocity = new Vector3(agent.velocity.x, 0, agent.velocity.z);
         isMoving = horizontalVelocity.magnitude > 0.5;        
@@ -36,7 +40,7 @@ public class CharacterMotor : MonoBehaviour
                 //playerMarker.transform.position = agent.destination;
 //playerMarker.SetActive(true);
             
-                if((transform.position - agent.destination).magnitude > 6){
+                if(agent.remainingDistance > 6){
                     animator.SetBool("Running", true);
                     animator.SetBool("Moving", false);
                     agent.speed = 6;

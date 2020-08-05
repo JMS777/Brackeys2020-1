@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.AI;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(CharacterMotor))]
 public class PlayerMovement : MonoBehaviour
@@ -20,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     public GameObject playerMarker;
     public GameObject tileChecker;
+    public GameObject MoveCost;
     //public GameObject EnemyList;
     // Start is called before the first frame update
     private Action currentAction;
@@ -30,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
 
     private ActionPointSystem actionPointSystem;
     private int tileToMove;
+    private NavMeshPath path;
+    private TextMesh textMesh;
+    private bool isClickable;
     enum Action
     {
         Move,
@@ -38,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
 
 
-    void Start()
+    void Awake()
     {
         characterMotor = GetComponent<CharacterMotor>();
         playerMarker.SetActive(false);
@@ -47,6 +52,8 @@ public class PlayerMovement : MonoBehaviour
         interactableObjects = FindObjectsOfType<MonoBehaviour>().OfType<IInteractable>();
         playerController = GetComponent<PlayerController>();
         actionPointSystem = GetComponent<ActionPointSystem>();
+        textMesh = MoveCost.GetComponent<TextMesh>();
+        path = new NavMeshPath();
         //tileChecker.SetActive(false);
     }
 
@@ -57,13 +64,18 @@ public class PlayerMovement : MonoBehaviour
         {
             playerMarker.transform.position = characterMotor.NextPosition;
         }
+        MoveCost.transform.position = updatedPos + new Vector3(0, 1,0);
+        MoveCost.transform.LookAt(FindObjectOfType<Cinemachine.CinemachineFreeLook>().transform);
         var main = particleSystem.main;
         // Gets list of current enemies
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hitData;
+        if (!Physics.Raycast(ray)){
+            isClickable = false;
+        }
         if (!characterMotor.isMoving && Physics.Raycast(ray, out hitData, 1000))
         {
-
+            isClickable = true;
             // Get tile position that cursor is over
             updatedPos = new Vector3(Mathf.Round(hitData.point.x / 5) * 5, 0.1f, Mathf.Round(hitData.point.z / 5) * 5);
             playerMarker.transform.position = updatedPos;
@@ -71,9 +83,10 @@ public class PlayerMovement : MonoBehaviour
 
             // Moves the tile checker to that tile
             tileChecker.transform.position = updatedPos;
-
             currentAction = Action.Move;
             main.startColor = Color.cyan;
+            textMesh.color = Color.cyan;
+            
 
             // Check if an enemy is on that tile
             foreach (IInteractable interactable in interactableObjects)
@@ -84,53 +97,57 @@ public class PlayerMovement : MonoBehaviour
                     if (interactable.gameObject.tag.Equals("Enemy"))
                     {
                         main.startColor = Color.red;
+                        textMesh.color = Color.red;
+                        MoveCost.transform.position += new Vector3(0,3,0);
                     }
                     else
                     {
                         main.startColor = Color.yellow;
+                        textMesh.color = Color.yellow;
+                        MoveCost.transform.position += new Vector3(0,1,0);
                     }
-
                     currentAction = Action.Interact;
                     currentTarget = interactable;
                 }
             }
-
             isValid = true;
         }
+        
         tileToMove = remainingDistance(updatedPos);
+        textMesh.text = tileToMove.ToString();
+        
         //Debug.Log(remainingDistance(updatedPos));
         if (!actionPointSystem.CheckValidAction(tileToMove) || tileToMove.Equals(0))
         {
             main.startColor = Color.gray;
+            textMesh.color = Color.gray;
         }
     }
 
     public void OnAction(InputAction.CallbackContext context)
     {
-
-        CurrentLocation = transform.position;
-        //Debug.Log(remainingDistance());
-        //CalculateDistance();
-        if (context.performed)
+        if (!EventSystem.current.IsPointerOverGameObject(0) || !isClickable)
         {
-
-            if (!characterMotor.isMoving)
+            CurrentLocation = transform.position;
+            //Debug.Log(remainingDistance());
+            //CalculateDistance();
+            if (context.performed)
             {
-                if (actionPointSystem.ExecuteAction(tileToMove) || tileToMove.Equals(0))
+                if (!characterMotor.isMoving)
                 {
-
-                    switch (currentAction)
+                    if (actionPointSystem.ExecuteAction(tileToMove) || tileToMove.Equals(0))
                     {
-                        case Action.Move:
-                            //Debug.Log(remainingDistance(updatedPos));
-                            characterMotor.setDestination(updatedPos);
-
-
-                            break;
-                        case Action.Interact:
-                            playerController.SetInteraction(currentTarget);
-                            //characterMotor.setDestination(currentTarget.InteractionPoint);
-                            break;
+                        switch (currentAction)
+                        {
+                            case Action.Move:
+                                //Debug.Log(remainingDistance(updatedPos));
+                                characterMotor.SetPath(path);
+                                break;
+                            case Action.Interact:
+                                playerController.SetInteraction(currentTarget);
+                                //characterMotor.setDestination(currentTarget.InteractionPoint);
+                                break;
+                        }
                     }
                 }
             }
@@ -149,7 +166,7 @@ public class PlayerMovement : MonoBehaviour
 
     private int remainingDistance(Vector3 position)
     {
-        NavMeshPath path = new NavMeshPath();
+        
         NavMesh.CalculatePath(transform.position, position, NavMesh.AllAreas, path);
 
 
