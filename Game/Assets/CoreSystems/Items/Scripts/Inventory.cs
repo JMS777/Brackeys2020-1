@@ -6,6 +6,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour, IItemSystem
 {
     public event Action ItemsChanged;
+    public event Action InventoryClosed;
 
     [SerializeField]
     private new string name = "Inventory";
@@ -33,5 +34,10 @@ public class Inventory : MonoBehaviour, IItemSystem
         ItemsChanged?.Invoke();
 
         return success;
+    }
+
+    public void CloseInventory()
+    {
+        InventoryClosed?.Invoke();
     }
 }

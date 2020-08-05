@@ -30,7 +30,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
         inventoryUi.Open();
     }
 
-    public void ShowItemStore(ItemStore itemStore)
+    public void ShowItemStore(Inventory itemStore)
     {
         itemStoreUi.Context = itemStore;
         itemStoreUi.Open();
@@ -57,10 +57,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
 
     private void ItemStoreClosed()
     {
-        if (itemStoreUi.Context is ItemStore)
-        {
-            ((ItemStore)itemStoreUi.Context).CloseAnim();
-        }
+        itemStoreUi.Context.CloseInventory();
     }
 
     private void TogglePanel<T>(IItemUIPanel<T> panel)

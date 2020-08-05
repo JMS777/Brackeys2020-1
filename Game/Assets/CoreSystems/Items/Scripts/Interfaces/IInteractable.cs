@@ -6,5 +6,6 @@ public interface IInteractable
 
     GameObject gameObject { get; }
 
-    Vector3 InteractionPoint { get; }
+    // Vector3 InteractionPoint { get; }
+    Vector3 GetInteractionPoint(Transform interactingObject);
 }
