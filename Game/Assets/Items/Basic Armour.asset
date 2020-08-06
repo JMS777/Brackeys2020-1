@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Chestplate
   Icon: {fileID: 21300000, guid: 89b42185f7ba64fe1a482bf44e824946, type: 3}
-  equipmentSlot: 5
+  equipmentSlot: 1
   gameObject: {fileID: 0}
   Resistances:
   - DamageType: 0

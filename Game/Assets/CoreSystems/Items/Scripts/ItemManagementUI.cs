@@ -16,6 +16,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
         var player = FindObjectOfType<PlayerController>();
 
         inventoryUi.Context = player.GetComponent<Inventory>();
+        inventoryUi.Context.SetPrimary();
         equipmentUI.Context = player.GetComponent<EquipmentSystem>();
 
         inventoryUi.PanelClosed += InventoryClosed;
