@@ -15,6 +15,14 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
 
     public event Action ItemsChanged;
 
+    [Serializable]
+    public struct PhyscialSlot{
+        public EquipmentSlot equipmentSlot;
+        public Transform transform;
+        public GameObject equippedItem;
+    }
+
+    public List<PhyscialSlot> PhysicalSlots;
     public IEnumerable<DamageInfo> WeaponDamage
     {
         get
@@ -52,9 +60,10 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
 
         if (EquipmentSlots[(int)equipment.equipmentSlot] != null)
         {
+            onUnequip(equipment);
             inventory.Add(EquipmentSlots[(int)equipment.equipmentSlot]);
         }
-
+        onEquip(equipment);
         EquipmentSlots[(int)equipment.equipmentSlot] = equipment;
 
         ItemsChanged?.Invoke();
@@ -64,10 +73,21 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
     {
         if (inventory.Add(equipment))
         {
+            onUnequip(equipment);
             EquipmentSlots[(int)equipment.equipmentSlot] = null;
         }
 
         ItemsChanged?.Invoke();
 
+    }
+
+    private void onEquip(Equipment equipment){
+        var currentSlot = PhysicalSlots.Single(p => p.equipmentSlot == equipment.equipmentSlot);
+        currentSlot.equippedItem = Instantiate(equipment.gameObject, currentSlot.transform);
+    }
+
+    private void onUnequip(Equipment equipment){
+        var currentSlot = PhysicalSlots.Single(p => p.equipmentSlot == equipment.equipmentSlot);
+        Destroy(currentSlot.equippedItem);
     }
 }

@@ -43,7 +43,7 @@ CapsuleCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
-  m_Height: 3.2244525
+  m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
 --- !u!114 &4706118178425813305
@@ -202,22 +202,6 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 89838f5d-0265-4db3-ae7b-78f70a3d0b08
     m_ActionName: UI/TrackedDeviceOrientation
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7967894562070534326}
-        m_TargetAssemblyTypeName: CharacterMotor, Assembly-CSharp
-        m_MethodName: OnAttack
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: f314fb05-24d7-4b77-965b-eac17483c688
-    m_ActionName: Player/Attack[/Keyboard/a]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -237,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMarker: {fileID: 0}
   tileChecker: {fileID: 0}
+  MoveCost: {fileID: 0}
   CurrentLocation: {x: 0, y: 0, z: 0}
 --- !u!195 &7967894562070534320
 NavMeshAgent:
@@ -315,6 +300,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Equipment
+  PhysicalSlots:
+  - equipmentSlot: 0
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
+  - equipmentSlot: 1
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
+  - equipmentSlot: 2
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
+  - equipmentSlot: 3
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
+  - equipmentSlot: 4
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
+  - equipmentSlot: 5
+    transform: {fileID: 0}
+    equippedItem: {fileID: 0}
 --- !u!114 &7967894562070534325
 MonoBehaviour:
   m_ObjectHideFlags: 0
