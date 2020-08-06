@@ -301,23 +301,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Equipment
   PhysicalSlots:
-  - equipmentSlot: 0
-    transform: {fileID: 0}
-    equippedItem: {fileID: 0}
-  - equipmentSlot: 1
-    transform: {fileID: 0}
-    equippedItem: {fileID: 0}
-  - equipmentSlot: 2
-    transform: {fileID: 0}
-    equippedItem: {fileID: 0}
-  - equipmentSlot: 3
-    transform: {fileID: 0}
-    equippedItem: {fileID: 0}
   - equipmentSlot: 4
-    transform: {fileID: 0}
+    transform: {fileID: 7967894561488214121}
     equippedItem: {fileID: 0}
   - equipmentSlot: 5
-    transform: {fileID: 0}
+    transform: {fileID: 7967894561488171151}
     equippedItem: {fileID: 0}
 --- !u!114 &7967894562070534325
 MonoBehaviour:
@@ -736,5 +724,15 @@ PrefabInstance:
 --- !u!4 &7967894561488158271 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 408822, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
+  m_PrefabInstance: {fileID: 7967894561488011977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7967894561488171151 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 422470, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
+  m_PrefabInstance: {fileID: 7967894561488011977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7967894561488214121 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 465568, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
   m_PrefabInstance: {fileID: 7967894561488011977}
   m_PrefabAsset: {fileID: 0}

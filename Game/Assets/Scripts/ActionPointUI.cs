@@ -21,7 +21,6 @@ public class ActionPointUI : MonoBehaviour
 
     private void UpdateUI(int actionPoints)
     {
-        Debug.Log(actionPoints + ", " + actionPointObjects.Count);
         while (actionPointObjects.Count < actionPoints)
         {
             actionPointObjects.Add(Instantiate(ActionPointPrefab, transform));
