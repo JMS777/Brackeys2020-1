@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hitData;
         if (!Physics.Raycast(ray)){
             isClickable = false;
+            return;
         }
         if (!characterMotor.isMoving && Physics.Raycast(ray, out hitData, 1000))
         {
@@ -126,7 +127,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnAction(InputAction.CallbackContext context)
     {
-        if (!EventSystem.current.IsPointerOverGameObject(0) || !isClickable)
+        if (!EventSystem.current.IsPointerOverGameObject(0) && isClickable)
         {
             CurrentLocation = transform.position;
             //Debug.Log(remainingDistance());
