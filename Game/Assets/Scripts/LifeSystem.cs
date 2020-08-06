@@ -10,12 +10,21 @@ public class LifeSystem : MonoBehaviour
     public event Action<int> PlayerDamaged;
     public event Action PlayerDied;
 
+    public bool IsDead
+    {
+        get
+        {
+            return CurrentHealth <= 0;
+        }
+    }
+
+
 
     [Range(0, 1)]
     [Tooltip("The chance of armour reducing amount of damage taken. (Set to 1 to always remove armour rating from damage value)")]
     public float armourEffectiveness = 0.8f;
 
-    [Range(0,1)]
+    [Range(0, 1)]
     [Tooltip("The chance armour will completely block an attack.")]
     public float armourBlockChance = 0.1f;
 
@@ -24,7 +33,7 @@ public class LifeSystem : MonoBehaviour
 
     private EquipmentSystem equipment;
     private Animator animator;
-    
+
     void Awake()
     {
         equipment = GetComponent<EquipmentSystem>();
@@ -85,8 +94,9 @@ public class LifeSystem : MonoBehaviour
         return damage;
     }
 
-    private void OnDeath(){
-        
+    private void OnDeath()
+    {
+
         animator.SetTrigger("Death");
         PlayerDied?.Invoke();
     }

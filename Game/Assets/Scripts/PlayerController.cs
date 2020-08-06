@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(LifeSystem))]
+[RequireComponent(typeof(CharacterMotor))]
 public class PlayerController : MonoBehaviour
 {
     public ItemStore temp;
     public IInteractable NextInteraction { get; private set; }
     private IInteractable lastInteraction;
-    
+
+    private LifeSystem lifeSystem;
     private CharacterMotor motor;
+    private PlayerMovement playerInput;
 
     public void SetInteraction(IInteractable interactableObject)
     {
@@ -23,6 +27,10 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
+        playerInput = GetComponent<PlayerMovement>();
+        lifeSystem = GetComponent<LifeSystem>();
+
+        lifeSystem.PlayerDied += OnPlayerDied;
     }
 
     // Start is called before the first frame update
@@ -69,5 +77,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         transform.LookAt(interaction, Vector3.up);
+    }
+
+    private void OnPlayerDied()
+    {
+        playerInput.enabled = false;
     }
 }

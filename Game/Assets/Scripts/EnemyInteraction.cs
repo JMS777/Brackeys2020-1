@@ -34,13 +34,21 @@ public class EnemyInteraction : Interactable
     private IEnumerator Retaliate(LifeSystem targetLifeSystem){
         
         yield return new WaitForSeconds(2);
-        transform.LookAt(targetLifeSystem.transform,Vector3.up);
-        characterMotor.OnAttack();
-        combatSystem.Attack(targetLifeSystem);
-        targetLifeSystem.GetComponent<CharacterMotor>().OnHit();
-        yield return new WaitForSeconds(2);
-        var targetDestination = transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5;
-        targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
+
+        if (!lifeSystem.IsDead)
+        {
+            transform.LookAt(targetLifeSystem.transform,Vector3.up);
+            characterMotor.OnAttack();
+            combatSystem.Attack(targetLifeSystem);
+            targetLifeSystem.GetComponent<CharacterMotor>().OnHit();
+            yield return new WaitForSeconds(2);
+            
+            if (!targetLifeSystem.IsDead)
+            {
+                var targetDestination = transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5;
+                targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
+            }
+        }
     }
 
 }
