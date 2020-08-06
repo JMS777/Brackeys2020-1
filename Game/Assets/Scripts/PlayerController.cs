@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(LifeSystem))]
+[RequireComponent(typeof(CharacterMotor))]
 public class PlayerController : MonoBehaviour
 {
     public ItemStore temp;
     public IInteractable NextInteraction { get; private set; }
     private IInteractable lastInteraction;
-    
+
+    private LifeSystem lifeSystem;
     private CharacterMotor motor;
+    private PlayerMovement playerInput;
 
     public void SetInteraction(IInteractable interactableObject)
     {
@@ -23,6 +27,10 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         motor = GetComponent<CharacterMotor>();
+        playerInput = GetComponent<PlayerMovement>();
+        lifeSystem = GetComponent<LifeSystem>();
+
+        lifeSystem.PlayerDied += OnPlayerDied;
     }
 
     // Start is called before the first frame update
@@ -42,25 +50,30 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        // Player is colliding with the interaction point, so get the script from the parent object.
-        var interactable = other.transform.parent.GetComponent<IInteractable>();
-        if (interactable != null && interactable == NextInteraction)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
-            interactable.Interact(gameObject);
+            var interactable = other.transform.parent.GetComponent<IInteractable>();
+            if (interactable != null && interactable == NextInteraction)
+            {
+                interactable.Interact(gameObject);
 
 
-            StartCoroutine(LookAtInteraction(other.transform.parent));
-            lastInteraction = NextInteraction;
-            NextInteraction = null;
+                StartCoroutine(LookAtInteraction(other.transform.parent));
+                lastInteraction = NextInteraction;
+                NextInteraction = null;
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        var interactable = other.transform.parent.GetComponent<IInteractable>();
-        if (interactable != null && interactable == lastInteraction && lastInteraction is ItemStore)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
-            ((ItemStore)lastInteraction).Close();
+            var interactable = other.transform.parent.GetComponent<IInteractable>();
+            if (interactable != null && interactable == lastInteraction && lastInteraction is ItemStore)
+            {
+                ((ItemStore)lastInteraction).Close();
+            }
         }
     }
 
@@ -69,5 +82,10 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         transform.LookAt(interaction, Vector3.up);
+    }
+
+    private void OnPlayerDied()
+    {
+        playerInput.enabled = false;
     }
 }
