@@ -50,25 +50,30 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        // Player is colliding with the interaction point, so get the script from the parent object.
-        var interactable = other.transform.parent.GetComponent<IInteractable>();
-        if (interactable != null && interactable == NextInteraction)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
-            interactable.Interact(gameObject);
+            var interactable = other.transform.parent.GetComponent<IInteractable>();
+            if (interactable != null && interactable == NextInteraction)
+            {
+                interactable.Interact(gameObject);
 
 
-            StartCoroutine(LookAtInteraction(other.transform.parent));
-            lastInteraction = NextInteraction;
-            NextInteraction = null;
+                StartCoroutine(LookAtInteraction(other.transform.parent));
+                lastInteraction = NextInteraction;
+                NextInteraction = null;
+            }
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        var interactable = other.transform.parent.GetComponent<IInteractable>();
-        if (interactable != null && interactable == lastInteraction && lastInteraction is ItemStore)
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
-            ((ItemStore)lastInteraction).Close();
+            var interactable = other.transform.parent.GetComponent<IInteractable>();
+            if (interactable != null && interactable == lastInteraction && lastInteraction is ItemStore)
+            {
+                ((ItemStore)lastInteraction).Close();
+            }
         }
     }
 
