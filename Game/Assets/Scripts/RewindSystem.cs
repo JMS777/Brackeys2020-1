@@ -1,8 +1,37 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public static class ArrayExtensions
+{
+    public static List<T> CopyList<T>(this List<T> list)
+    {
+        var newList = new List<T>();
+
+        foreach (var element in list)
+        {
+            newList.Add(element);
+        }
+
+        return newList;
+    }
+
+    public static T[] CopyArray<T>(this T[] array)
+    {
+        var newArray = new T[array.Length];
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            newArray[i] = array[i];
+        }
+
+        return newArray;
+    }
+}
+
+[Serializable]
 public struct CharacterSnapshot
 {
     public int Turn;
@@ -18,10 +47,10 @@ public struct CharacterSnapshot
         Turn = turn;
         Health = lifeSystem.CurrentHealth;
         MaxHealth = lifeSystem.MaxHealth;
-        Inventory = inventory.items;
-        Equipment = equipment.EquipmentSlots;
-        Damage = equipment.WeaponDamage.Sum(p => p.Value);
-        Armour = equipment.ArmourResistances.Sum(p => p.Value);
+        Inventory = inventory.items.CopyList();
+        Equipment = equipment.EquipmentSlots.CopyArray();
+        Damage = equipment.WeaponDamage?.Sum(p => p.Value) ?? 0;
+        Armour = equipment.ArmourResistances?.Sum(p => p.Value) ?? 0;
     }
 }
 
@@ -49,7 +78,7 @@ public class RewindSystem : MonoBehaviour
     private TurnSystem turnSystem;
     private RewindUI rewindUI;
 
-    private IList<CharacterSnapshot> snapshots = new List<CharacterSnapshot>();
+    private List<CharacterSnapshot> snapshots = new List<CharacterSnapshot>();
 
     void Awake()
     {
@@ -73,17 +102,19 @@ public class RewindSystem : MonoBehaviour
         if (currentCooldown > 0)
         {
             currentCooldown--;
+
+            rewindUI.UpdateButton(currentCooldown);
         }
     }
 
-    public bool Activate(int currentTurn)
+    public bool Activate()
     {
         if (!Ready)
         {
             return false;
         }
 
-        var snapshots = GetSnapshots(currentTurn);
+        var snapshots = GetSnapshots(turnSystem.CurrentTurn);
 
         rewindUI.Open(snapshots);
         return true;
@@ -100,10 +131,10 @@ public class RewindSystem : MonoBehaviour
     {
         if (currentTurn - 3 > 0)
             yield return currentTurn - 3;
-        if (currentTurn - 6 > 0)
-            yield return currentTurn - 6;
-        if (currentTurn - 9 > 0)
-            yield return currentTurn - 9;
+        if (currentTurn - 7 > 0)
+            yield return currentTurn - 7;
+        if (currentTurn - 11 > 0)
+            yield return currentTurn - 11;
     }
 
     public bool RestoreSnapshot(int turn)
@@ -118,8 +149,8 @@ public class RewindSystem : MonoBehaviour
         currentCooldown = cooldown;
 
         lifeSystem.SetHealth(snapshot.Value.Health);
-        equipment.EquipmentSlots = snapshot.Value.Equipment;
-        inventory.items = snapshot.Value.Inventory;
+        equipment.RestoreEquipment(snapshot.Value.Equipment);
+        inventory.RestoreInventory(snapshot.Value.Inventory);
 
         return true;
     }

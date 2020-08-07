@@ -50,15 +50,15 @@ public class AISystem : MonoBehaviour
 
     private IEnumerator ProcessTurn()
     {
-        foreach (var agent in agents)
-        {
-            processingQueue.Add(agent);
-            agent.StartTurn();
+        // foreach (var agent in agents)
+        // {
+        //     processingQueue.Add(agent);
+        //     agent.StartTurn();
 
-        }
+        // }
         
-        yield return new WaitWhile(() => { return processingQueue.Count > 0; });
-
+        // yield return new WaitWhile(() => { return processingQueue.Count > 0; });
+        yield return new WaitForSeconds(1);
         AITurnFinished?.Invoke();
     }
 }
