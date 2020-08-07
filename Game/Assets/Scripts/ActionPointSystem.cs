@@ -7,7 +7,7 @@ public class ActionPointSystem : MonoBehaviour
 {
     public event Action<int> ActionPointsUpdated;
 
-    public int actionPoints = 3;
+    public int actionPoints;
 
     public int CurrentActionPoints { get; private set; }
 
