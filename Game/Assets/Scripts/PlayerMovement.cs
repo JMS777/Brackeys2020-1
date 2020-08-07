@@ -87,7 +87,8 @@ public class PlayerMovement : MonoBehaviour
             currentAction = Action.Move;
             main.startColor = Color.cyan;
             textMesh.color = Color.cyan;
-            
+
+            tileToMove = remainingDistance(updatedPos);
 
             // Check if an enemy is on that tile
             foreach (IInteractable interactable in interactableObjects)
@@ -109,12 +110,13 @@ public class PlayerMovement : MonoBehaviour
                     }
                     currentAction = Action.Interact;
                     currentTarget = interactable;
+                    tileToMove++;
                 }
             }
             isValid = true;
         }
         
-        tileToMove = remainingDistance(updatedPos);
+        
         textMesh.text = tileToMove.ToString();
         
         //Debug.Log(remainingDistance(updatedPos));
