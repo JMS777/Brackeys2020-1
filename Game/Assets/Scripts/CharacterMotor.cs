@@ -45,15 +45,7 @@ public class CharacterMotor : MonoBehaviour
             return -1;
         }
 
-        Vector3[] points = path.corners;
-        if (points.Length < 2) return 0;
-        float distance = 0;
-        for (int i = 0; i < points.Length - 1; ++i)
-        {
-            distance += Vector3.Distance(points[i], points[i + 1]);
-        }
-
-        return (int)((0.95f * distance) / 5) + 1;
+        return GridHelper.GetActionPointsRequired(path);
     }
 
     void FixedUpdate()

@@ -11,7 +11,7 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
     private new string name = "Equipment";
     public string Name { get { return name; } }
     
-    public Equipment[] EquipmentSlots { get; private set; }
+    public Equipment[] EquipmentSlots { get; set; }
 
     public event Action ItemsChanged;
 

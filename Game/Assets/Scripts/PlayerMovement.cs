@@ -60,6 +60,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (enabled == false)
+        {
+            return;
+        }
         if (characterMotor.isMoving)
         {
             playerMarker.transform.position = characterMotor.NextPosition;
@@ -78,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isClickable = true;
             // Get tile position that cursor is over
-            updatedPos = new Vector3(Mathf.Round(hitData.point.x / 5) * 5, 0.1f, Mathf.Round(hitData.point.z / 5) * 5);
+            updatedPos = GridHelper.GetNearestTile(hitData.point);
             playerMarker.transform.position = updatedPos;
             playerMarker.SetActive(true);
 
@@ -160,7 +164,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3[] updatedCorners = new Vector3[corners.Length];
         for (int i = 0; i < corners.Length - 1; ++i)
         {
-            updatedCorners[i] = new Vector3(Mathf.Round(corners[i].x / 5) * 5, 0.1f, Mathf.Round(corners[i].z / 5) * 5);
+            updatedCorners[i] = GridHelper.GetNearestTile(corners[i]);
         }
         return updatedCorners;
     }
@@ -170,15 +174,7 @@ public class PlayerMovement : MonoBehaviour
         
         NavMesh.CalculatePath(transform.position, position, NavMesh.AllAreas, path);
 
-
-        Vector3[] points = path.corners;
-        if (points.Length < 2) return 0;
-        float distance = 0;
-        for (int i = 0; i < points.Length - 1; ++i)
-        {
-            distance += Vector3.Distance(points[i], points[i + 1]);
-        }
-
-        return (int)((0.95f * distance) / 5) + 1;
+        return GridHelper.GetActionPointsRequired(path);
+        
     }
 }

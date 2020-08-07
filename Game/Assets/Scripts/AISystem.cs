@@ -44,7 +44,7 @@ public class AISystem : MonoBehaviour
 
     public void StartTurn()
     {
-        Debug.Log("Processing AI");
+        // Debug.Log("Processing AI");
         StartCoroutine(ProcessTurn());
     }
 

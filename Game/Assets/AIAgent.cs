@@ -7,9 +7,11 @@ using UnityEngine;
 [RequireComponent(typeof(ActionPointSystem))]
 [RequireComponent(typeof(LifeSystem))]
 [RequireComponent(typeof(CharacterMotor))]
+[RequireComponent(typeof(VisionSystem))]
 public class AIAgent : MonoBehaviour
 {
     public delegate void AgentFinished(AIAgent agent);
+    public IInteractable NextInteraction { get; private set; }
 
     public const float TILE_SIZE = 5;
     public event AgentFinished FinishedTurn;
@@ -19,6 +21,7 @@ public class AIAgent : MonoBehaviour
     private ActionPointSystem actionPoints;
     private LifeSystem lifeSystem;
     private CharacterMotor motor;
+    private VisionSystem vision;
 
     private bool executingAction = false;
 
@@ -29,6 +32,7 @@ public class AIAgent : MonoBehaviour
         actionPoints = GetComponent<ActionPointSystem>();
         lifeSystem = GetComponent<LifeSystem>();
         motor = GetComponent<CharacterMotor>();
+        vision = GetComponentInChildren<VisionSystem>();
     }
 
     // Start is called before the first frame update
@@ -43,9 +47,53 @@ public class AIAgent : MonoBehaviour
 
     }
 
+
+
+    private void SetInteraction(IInteractable interactableObject)
+    {
+        if (interactableObject == null)
+        {
+            return;
+        }
+        if (interactableObject.gameObject.transform == transform)
+        {
+            Debug.LogWarning("Cannot interact with self.");
+            return;
+        }
+
+        NextInteraction = interactableObject;
+
+        motor.setDestination(NextInteraction.GetInteractionPoint(transform));
+
+        // Todo: Remove action points (or maybe keep that in the player movement script along with everything else).
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
+        {
+            var interactable = other.transform.parent.GetComponent<IInteractable>();
+            if (interactable != null && interactable == NextInteraction)
+            {
+                interactable.Interact(gameObject);
+
+
+                StartCoroutine(LookAtInteraction(other.transform.parent));
+                NextInteraction = null;
+            }
+        }
+    }
+
+    IEnumerator LookAtInteraction(Transform interaction)
+    {
+        yield return new WaitForSeconds(1);
+
+        transform.LookAt(interaction, Vector3.up);
+    }
+
     public void StartTurn()
     {
-        Debug.Log("Processing AI Agent " + gameObject.name);
+        // Debug.Log("Processing AI Agent " + gameObject.name);
         StartCoroutine(ProcessTurn());
     }
 
@@ -53,6 +101,11 @@ public class AIAgent : MonoBehaviour
     {
         while (actionPoints.CurrentActionPoints > 0)
         {
+            if (lifeSystem.IsDead)
+            {
+                break;
+            }
+
             bool hasAction = StartBestAction();
 
             if (hasAction)
@@ -93,13 +146,44 @@ public class AIAgent : MonoBehaviour
 
     private bool AttackPlayer()
     {
-        // Debug.Log("Checking for player visibility");
+        if (vision.Player != null)
+        {
+            var apRequired = motor.ValidPath(vision.Player.transform.position);
+            
+            if (apRequired >= 0 && actionPoints.CheckValidAction(apRequired))
+            {
+                Debug.Log("Attacking player");
+                actionPoints.ExecuteAction(apRequired);
+                SetInteraction(vision.Player.GetComponent<Interactable>());
+                StartCoroutine(EndAction());
+                return true;
+                // TODO: Set interaction point, (SetInteraction code from player controller).
+            }
+        }
+
         return false;
+    }
+
+    IEnumerator EndAction()
+    {
+        yield return new WaitForSeconds(7);
+        ActionFinished();
     }
 
     private bool MoveTowardsPlayer()
     {
-        // Debug.Log("Checking move to player");
+        if (vision.PlayerInSight)
+        {
+            var targetTile = GridHelper.GetNearestTile(transform.position + ((vision.Player.position - transform.position).normalized * TILE_SIZE));
+
+            Debug.Log("Moving to player");
+            motor.FinishedMoving += ActionFinished;
+            previousTile = transform.position;
+            motor.setDestination(targetTile);
+            actionPoints.ExecuteAction(1);
+            return true;
+        }
+
         return false;
     }
 
@@ -110,7 +194,7 @@ public class AIAgent : MonoBehaviour
 
         if (targetTile.HasValue)
         {
-            Debug.Log("Patrolling");
+            // Debug.Log("Patrolling");
             motor.FinishedMoving += ActionFinished;
             previousTile = transform.position;
             motor.setDestination(targetTile.Value.position);
@@ -126,6 +210,8 @@ public class AIAgent : MonoBehaviour
         if (previousTile.HasValue)
         {
             var position = transform.position + (transform.position - previousTile.Value);
+            position = GridHelper.GetNearestTile(position);
+
             var target = new PossibleTile
             {
                 position = position,
@@ -148,7 +234,7 @@ public class AIAgent : MonoBehaviour
 
         if (availableTiles.Count > 0)
         {
-            Debug.Log("Moving randomly");
+            // Debug.Log("Moving randomly");
             var targetTile = availableTiles[UnityEngine.Random.Range(0, availableTiles.Count)];
             previousTile = transform.position;
             motor.FinishedMoving += ActionFinished;
@@ -171,7 +257,7 @@ public class AIAgent : MonoBehaviour
         var directions = GetAllDirections().ToList();
 
         return directions
-            .Select(p => new PossibleTile { position = transform.position + (p * TILE_SIZE), cost = motor.ValidPath(transform.position + (p * TILE_SIZE))})
+            .Select(p => new PossibleTile { position = GridHelper.GetNearestTile(transform.position + (p * TILE_SIZE)), cost = motor.ValidPath(GridHelper.GetNearestTile(transform.position + (p * TILE_SIZE)))})
             .Where(p => p.cost > 0);
     }
 
