@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce9f555f8dbb4037be21945077458c5, type: 3}
-  m_Name: Basic Sword
+  m_Name: Dagger
   m_EditorClassIdentifier: 
-  Name: Basic Sword
-  Icon: {fileID: 21300000, guid: c3af901a8f1e1854f9c1cf35a9826edd, type: 3}
+  Name: Dagger
+  Icon: {fileID: 21300000, guid: eced667b3797a9f4ab68de3d6aaa3159, type: 3}
   equipmentSlot: 4
-  gameObject: {fileID: 7051928846722266890, guid: c3444574631d29242a9aee088817e0db, type: 3}
+  gameObject: {fileID: 176486, guid: 00565c6238126424599242cffe0ede5b, type: 3}
   WeaponType: 0
   Damage:
   - DamageType: 0

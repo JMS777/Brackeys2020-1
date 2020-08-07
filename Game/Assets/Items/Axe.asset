@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0ce9f555f8dbb4037be21945077458c5, type: 3}
-  m_Name: Basic Sword
+  m_Name: Axe
   m_EditorClassIdentifier: 
-  Name: Basic Sword
-  Icon: {fileID: 21300000, guid: c3af901a8f1e1854f9c1cf35a9826edd, type: 3}
+  Name: Axe
+  Icon: {fileID: 21300000, guid: 1c2228434c62f7d42b024d85c994076f, type: 3}
   equipmentSlot: 4
-  gameObject: {fileID: 7051928846722266890, guid: c3444574631d29242a9aee088817e0db, type: 3}
+  gameObject: {fileID: 193736, guid: 1d57899ee20f82343aa0fec3900f9ac2, type: 3}
   WeaponType: 0
   Damage:
   - DamageType: 0
-    Value: 2
+    Value: 4
