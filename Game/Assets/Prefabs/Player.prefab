@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7967894560292984436}
   - component: {fileID: 7967894560292984395}
   - component: {fileID: 4706118178425813305}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Interaction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 7967894562070534332}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.8
+  m_Radius: 0.5
   m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
@@ -674,7 +674,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114978, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 116728, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_Layer
@@ -698,7 +698,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 120056, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 124148, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_Layer
@@ -750,7 +750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 140906, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 142704, guid: 0925457c2b2fe9f4a8747c59013d56d4, type: 3}
       propertyPath: m_Layer
