@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using CoreSystems.TransitionSystem;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -105,5 +106,6 @@ public class PlayerController : MonoBehaviour
     private void OnPlayerDied()
     {
         playerInput.enabled = false;
+        LevelLoader.Instance.LoadLevel(Level.Menu);
     }
 }

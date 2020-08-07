@@ -44,6 +44,7 @@ public class LifeSystem : MonoBehaviour
     public void SetHealth(int hp)
     {
         CurrentHealth = Mathf.Clamp(hp, 0, MaxHealth);
+        PlayerDamaged?.Invoke(CurrentHealth);
     }
 
     public void Damage(DamageInfo damage)
