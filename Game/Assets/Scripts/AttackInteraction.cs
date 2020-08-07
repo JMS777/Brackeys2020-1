@@ -44,11 +44,12 @@ public class AttackInteraction : Interactable
             targetLifeSystem.GetComponent<CharacterMotor>().OnHit();
             yield return new WaitForSeconds(2);
 
-            if (!targetLifeSystem.IsDead)
-            {
-                var targetDestination = transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5;
-                targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
-            }
+        }
+        
+        if (!targetLifeSystem.IsDead)
+        {
+            var targetDestination = GridHelper.GetNearestTile(transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5);
+            targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
         }
     }
 

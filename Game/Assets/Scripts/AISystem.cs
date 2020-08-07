@@ -44,21 +44,21 @@ public class AISystem : MonoBehaviour
 
     public void StartTurn()
     {
-        Debug.Log("Processing AI");
+        // Debug.Log("Processing AI");
         StartCoroutine(ProcessTurn());
     }
 
     private IEnumerator ProcessTurn()
     {
-        foreach (var agent in agents)
-        {
-            processingQueue.Add(agent);
-            agent.StartTurn();
+        // foreach (var agent in agents)
+        // {
+        //     processingQueue.Add(agent);
+        //     agent.StartTurn();
 
-        }
+        // }
         
-        yield return new WaitWhile(() => { return processingQueue.Count > 0; });
-
+        // yield return new WaitWhile(() => { return processingQueue.Count > 0; });
+        yield return new WaitForSeconds(1);
         AITurnFinished?.Invoke();
     }
 }

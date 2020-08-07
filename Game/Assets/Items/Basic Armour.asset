@@ -18,4 +18,4 @@ MonoBehaviour:
   gameObject: {fileID: 0}
   Resistances:
   - DamageType: 0
-    Value: 0
+    Value: 2

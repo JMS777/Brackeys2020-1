@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(LifeSystem))]
 [RequireComponent(typeof(CharacterMotor))]
+[RequireComponent(typeof(RewindSystem))]
 public class PlayerController : MonoBehaviour
 {
     public ItemStore temp;
@@ -83,7 +84,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        Debug.Log(other.name);
+        // Debug.Log(other.name);
         if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
             var interactable = other.transform.parent.GetComponent<IInteractable>();

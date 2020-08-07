@@ -65,7 +65,6 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
         }
         onEquip(equipment);
         EquipmentSlots[(int)equipment.equipmentSlot] = equipment;
-        Debug.Log("Equipment changed");
         ItemsChanged?.Invoke();
     }
 
@@ -76,7 +75,6 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
             onUnequip(equipment);
             EquipmentSlots[(int)equipment.equipmentSlot] = null;
         }
-        Debug.Log("Unequip: Equipment changed");
 
         ItemsChanged?.Invoke();
 
@@ -100,5 +98,25 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
             currentSlot.equippedItem = null;
             Destroy(equippedItem);
         }
+    }
+
+    public void RestoreEquipment(Equipment[] oldEquipment)
+    {
+        for (int i = 0; i < Enum.GetNames(typeof(EquipmentSlot)).Length; i++)
+        {
+            if (EquipmentSlots[i] != null)
+            {
+                onUnequip(EquipmentSlots[i]);
+            }
+
+            EquipmentSlots[i] = oldEquipment[i];
+
+            if (EquipmentSlots[i] != null)
+            {
+                onEquip(EquipmentSlots[i]);
+            }
+        }
+
+        ItemsChanged?.Invoke();
     }
 }

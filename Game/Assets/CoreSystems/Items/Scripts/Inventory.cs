@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour, IItemSystem
@@ -46,5 +47,11 @@ public class Inventory : MonoBehaviour, IItemSystem
     public void CloseInventory()
     {
         InventoryClosed?.Invoke();
+    }
+
+    public void RestoreInventory(IEnumerable<Item> itemsToRestore)
+    {
+        items = itemsToRestore.ToList();
+        ItemsChanged?.Invoke();
     }
 }

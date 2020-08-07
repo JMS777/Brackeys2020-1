@@ -54,7 +54,7 @@ public class LifeSystem : MonoBehaviour
             return;
         }
         var value = ApplyArmourRating(damage.Value, damage.DamageType);
-        Debug.Log(damage.Value + ", " + value);
+        // Debug.Log(damage.Value + ", " + value);
 
         CurrentHealth -= value;
 
