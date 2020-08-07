@@ -65,7 +65,7 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
         }
         onEquip(equipment);
         EquipmentSlots[(int)equipment.equipmentSlot] = equipment;
-
+        Debug.Log("Equipment changed");
         ItemsChanged?.Invoke();
     }
 
@@ -76,6 +76,7 @@ public class EquipmentSystem : MonoBehaviour, IItemSystem
             onUnequip(equipment);
             EquipmentSlots[(int)equipment.equipmentSlot] = null;
         }
+        Debug.Log("Unequip: Equipment changed");
 
         ItemsChanged?.Invoke();
 
