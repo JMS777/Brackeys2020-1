@@ -17,6 +17,12 @@ public class PlayerController : MonoBehaviour
 
     public void SetInteraction(IInteractable interactableObject)
     {
+        if (interactableObject.gameObject.transform == transform)
+        {
+            Debug.LogWarning("Cannot interact with self.");
+            return;
+        }
+
         NextInteraction = interactableObject;
 
         motor.setDestination(NextInteraction.GetInteractionPoint(transform));
@@ -31,6 +37,16 @@ public class PlayerController : MonoBehaviour
         lifeSystem = GetComponent<LifeSystem>();
 
         lifeSystem.PlayerDied += OnPlayerDied;
+    }
+
+    public void OnEndTurn()
+    {
+        playerInput.enabled = false;
+    }
+
+    public void OnTurnStarted()
+    {
+        playerInput.enabled = true;
     }
 
     // Start is called before the first frame update
@@ -67,6 +83,7 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        Debug.Log(other.name);
         if (other.gameObject.layer == LayerMask.NameToLayer("Interaction"))
         {
             var interactable = other.transform.parent.GetComponent<IInteractable>();

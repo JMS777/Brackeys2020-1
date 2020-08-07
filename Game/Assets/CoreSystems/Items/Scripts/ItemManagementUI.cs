@@ -33,6 +33,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
 
     public void ShowItemStore(Inventory itemStore)
     {
+        Debug.Log(itemStore.Name);
         itemStoreUi.Context = itemStore;
         itemStoreUi.Open();
     }
