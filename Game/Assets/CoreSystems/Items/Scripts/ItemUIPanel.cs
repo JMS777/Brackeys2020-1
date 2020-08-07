@@ -28,7 +28,14 @@ public abstract class ItemUIPanel<T> : MonoBehaviour, IItemUIPanel<T> where T : 
             context.ItemsChanged += UpdateUI;
 
             title.text = context.Name;
+            OnContextChanged();
+            UpdateUI();
         }
+    }
+
+    protected virtual void OnContextChanged()
+    {
+        
     }
 
     public bool IsOpen

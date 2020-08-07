@@ -11,11 +11,14 @@ public class TurnSystem : MonoBehaviour
     public int CurrentTurn { get; set; }
 
     private AISystem aiSystem;
+    private PlayerController player;
 
     void Awake()
     {
         aiSystem = FindObjectOfType<AISystem>();
-        aiSystem.FinishedTurn += OnAiTurnFinished;
+        aiSystem.AITurnFinished += OnAiTurnFinished;
+
+        player = FindObjectOfType<PlayerController>();
     }
 
     // Start is called before the first frame update
@@ -28,6 +31,7 @@ public class TurnSystem : MonoBehaviour
     public void EndTurn()
     {
         PlayerTurnEnded?.Invoke();
+        player.OnEndTurn();
         aiSystem.StartTurn();
     }
 
@@ -39,6 +43,7 @@ public class TurnSystem : MonoBehaviour
     public void NextTurn()
     {
         CurrentTurn++;
+        player.OnTurnStarted();
         PlayerTurnStarted?.Invoke(CurrentTurn);
     }
 

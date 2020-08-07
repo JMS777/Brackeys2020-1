@@ -15,6 +15,11 @@ public class InventoryUI : ItemUIPanel<Inventory>
 
     protected override void UpdateUI()
     {
+        if (slots == null)
+        {
+            return;
+        }
+
         for (int i = 0; i < slots.Count; i++)
         {
             if (i < Context.items.Count)

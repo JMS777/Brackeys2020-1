@@ -13,9 +13,19 @@ public class EquipmentUI : ItemUIPanel<EquipmentSystem>
         slots = GetComponentsInChildren<EquipmentSlotUI>();
     }
 
+    protected override void OnContextChanged()
+    {
+        Context.ItemsChanged += Open;
+    }
+
     protected override void UpdateUI()
     {
-        Open();
+        // Open();
+
+        if (slots == null)
+        {
+            return;
+        }
 
         foreach (var slot in slots)
         {
