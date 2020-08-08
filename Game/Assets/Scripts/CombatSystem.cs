@@ -1,10 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(EquipmentSystem))]
 public class CombatSystem : MonoBehaviour
 {
+    public event Action CombatFinished;
+
     private EquipmentSystem equipment;
 
     public Weapon Unarmed;
@@ -24,6 +27,11 @@ public class CombatSystem : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnConbatFinished()
+    {
+        CombatFinished?.Invoke();
     }
 
     public void Attack(LifeSystem enemy)

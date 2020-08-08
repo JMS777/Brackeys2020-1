@@ -8,6 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(LifeSystem))]
 [RequireComponent(typeof(CharacterMotor))]
 [RequireComponent(typeof(VisionSystem))]
+[RequireComponent(typeof(CombatSystem))]
 public class AIAgent : MonoBehaviour
 {
     public delegate void AgentFinished(AIAgent agent);
@@ -22,8 +23,18 @@ public class AIAgent : MonoBehaviour
     private LifeSystem lifeSystem;
     private CharacterMotor motor;
     private VisionSystem vision;
+    private CombatSystem combat;
 
-    private bool executingAction = false;
+    private bool ExecutingAction
+    {
+        get
+        {
+            return isMoving | isAttacking;
+        }
+    }
+
+    private bool isMoving = false;
+    private bool isAttacking = false;
 
     private Vector3? previousTile = null;
 
@@ -33,21 +44,23 @@ public class AIAgent : MonoBehaviour
         lifeSystem = GetComponent<LifeSystem>();
         motor = GetComponent<CharacterMotor>();
         vision = GetComponentInChildren<VisionSystem>();
+        combat = GetComponentInChildren<CombatSystem>();
+
+        motor.FinishedMoving += OnFinishedMOving;
+        combat.CombatFinished += OnCombatFinished;
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnFinishedMOving()
     {
-
+        // Debug.Log("Agent finished moving");
+        isMoving = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnCombatFinished()
     {
-
+        // Debug.Log("Agent finished combat");
+        isAttacking = false;
     }
-
-
 
     private void SetInteraction(IInteractable interactableObject)
     {
@@ -101,6 +114,7 @@ public class AIAgent : MonoBehaviour
     {
         while (actionPoints.CurrentActionPoints > 0)
         {
+            // Debug.Log("Processing AI - " + name);
             if (lifeSystem.IsDead)
             {
                 break;
@@ -110,8 +124,7 @@ public class AIAgent : MonoBehaviour
 
             if (hasAction)
             {
-                executingAction = true;
-                yield return new WaitWhile(() => { return executingAction; });
+                yield return new WaitWhile(() => { return ExecutingAction; });
             }
             else
             {
@@ -130,6 +143,7 @@ public class AIAgent : MonoBehaviour
 
         while (!hasAction && actions.MoveNext())
         {
+            // Debug.Log(actions.Current());
             hasAction = actions.Current();
         }
 
@@ -152,10 +166,11 @@ public class AIAgent : MonoBehaviour
             
             if (apRequired >= 0 && actionPoints.CheckValidAction(apRequired))
             {
-                Debug.Log("Attacking player");
+                // Debug.Log("Attacking player");
                 actionPoints.ExecuteAction(apRequired);
                 SetInteraction(vision.Player.GetComponent<Interactable>());
-                StartCoroutine(EndAction());
+                isAttacking = true;
+                StartCoroutine(EndAttack());
                 return true;
                 // TODO: Set interaction point, (SetInteraction code from player controller).
             }
@@ -164,10 +179,10 @@ public class AIAgent : MonoBehaviour
         return false;
     }
 
-    IEnumerator EndAction()
+    IEnumerator EndAttack()
     {
         yield return new WaitForSeconds(7);
-        ActionFinished();
+        isAttacking = false;
     }
 
     private bool MoveTowardsPlayer()
@@ -176,9 +191,9 @@ public class AIAgent : MonoBehaviour
         {
             var targetTile = GridHelper.GetNearestTile(transform.position + ((vision.Player.position - transform.position).normalized * TILE_SIZE));
 
-            Debug.Log("Moving to player");
-            motor.FinishedMoving += ActionFinished;
+            // Debug.Log("Moving to player");
             previousTile = transform.position;
+            isMoving = true;
             motor.setDestination(targetTile);
             actionPoints.ExecuteAction(1);
             return true;
@@ -195,8 +210,8 @@ public class AIAgent : MonoBehaviour
         if (targetTile.HasValue)
         {
             // Debug.Log("Patrolling");
-            motor.FinishedMoving += ActionFinished;
             previousTile = transform.position;
+            isMoving = true;
             motor.setDestination(targetTile.Value.position);
             actionPoints.ExecuteAction(targetTile.Value.cost);
             return true;
@@ -237,19 +252,13 @@ public class AIAgent : MonoBehaviour
             // Debug.Log("Moving randomly");
             var targetTile = availableTiles[UnityEngine.Random.Range(0, availableTiles.Count)];
             previousTile = transform.position;
-            motor.FinishedMoving += ActionFinished;
+            isMoving = true;
             motor.setDestination(targetTile.position);
             actionPoints.ExecuteAction(targetTile.cost);
             return true;
         }
 
         return false;
-    }
-
-    private void ActionFinished()
-    {
-        executingAction = false;
-        motor.FinishedMoving -= ActionFinished;
     }
 
     private IEnumerable<PossibleTile> GetAvailableTiles()

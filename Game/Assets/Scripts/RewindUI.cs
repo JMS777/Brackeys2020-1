@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -14,6 +15,9 @@ public class RewindUI : MonoBehaviour
 
     public Button activateButton;
     public TMP_Text activateText;
+
+    public event Action PanelOpened;
+    public event Action PanelClosed;
 
     private ICollection<CharacterStateUI> stateUIs = new List<CharacterStateUI>();
 
@@ -34,6 +38,7 @@ public class RewindUI : MonoBehaviour
         }
 
         mainPanel.SetActive(true);
+        PanelOpened?.Invoke();
     }
 
     private void ClearChildren()
@@ -53,6 +58,7 @@ public class RewindUI : MonoBehaviour
     public void Close()
     {
         mainPanel.SetActive(false);
+        PanelClosed?.Invoke();
     }
 
     public void SetState(CharacterSnapshot snapshot)
@@ -66,11 +72,12 @@ public class RewindUI : MonoBehaviour
     {
         if (cooldown > 0)
         {
+            activateButton.interactable = false;
             activateText.text = $"{cooldown} turns";
         }
         else
         {
-            activateText.text = "Activate";
+            activateText.text = "Rewind";
             activateButton.interactable = true;
         }
     }

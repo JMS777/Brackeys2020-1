@@ -11,6 +11,8 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
 
     public ItemUIPanel<EquipmentSystem> equipmentUI;
 
+    public RewindUI rewindUI;
+
     void Awake()
     {
         var player = FindObjectOfType<PlayerController>();
@@ -24,6 +26,8 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
         equipmentUI.PanelOpened += ShowInventory;
         itemStoreUi.PanelOpened += ShowInventory;
         itemStoreUi.PanelClosed += ItemStoreClosed;
+
+        rewindUI.PanelOpened += RewindUIOpened;
     }
 
     public void ShowInventory()
@@ -59,7 +63,7 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
 
     private void ItemStoreClosed()
     {
-        itemStoreUi.Context.CloseInventory();
+        itemStoreUi.Context?.CloseInventory();
     }
 
     private void TogglePanel<T>(IItemUIPanel<T> panel)
@@ -80,5 +84,10 @@ public class ItemManagementUI : Singleton<ItemManagementUI>
         {
             itemStoreUi.Context.Remove(item);
         }
+    }
+
+    private void RewindUIOpened()
+    {
+        inventoryUi.Close();
     }
 }

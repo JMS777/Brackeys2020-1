@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class TurnSystemUI : MonoBehaviour
 {
     public TMP_Text text;
+    public GameObject processingAI;
 
     private TurnSystem turnSystem;
     private Button endTurn;
@@ -28,11 +29,13 @@ public class TurnSystemUI : MonoBehaviour
     private void EnableUI(int _)
     {
         endTurn.interactable = true;
+        processingAI.SetActive(false);
     }
 
     private void DisableUI()
     {
         endTurn.interactable = false;
+        processingAI.SetActive(true);
     }
 
     public void EndTurn()

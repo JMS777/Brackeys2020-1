@@ -90,6 +90,8 @@ public class RewindSystem : MonoBehaviour
 
         turnSystem.PlayerTurnStarted += TakeSnapshot;
         turnSystem.PlayerTurnStarted += ReduceCooldown;
+
+        currentCooldown = 4;
     }
 
     public void TakeSnapshot(int turn)

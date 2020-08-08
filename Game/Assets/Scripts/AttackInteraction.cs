@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ public class AttackInteraction : Interactable
     private CombatSystem combatSystem;
     private LifeSystem lifeSystem;
     private CharacterMotor characterMotor;
+
 
     protected override void Awake()
     {
@@ -29,10 +31,10 @@ public class AttackInteraction : Interactable
         intiatingCombatSystem.Attack(lifeSystem);
         characterMotor.OnHit();
         
-        StartCoroutine(Retaliate(intiatingLifeSystem));
+        StartCoroutine(Retaliate(intiatingLifeSystem, intiatingCombatSystem));
     }
 
-    private IEnumerator Retaliate(LifeSystem targetLifeSystem)
+    private IEnumerator Retaliate(LifeSystem targetLifeSystem, CombatSystem targetCombatSystem)
     {
         yield return new WaitForSeconds(2);
 
@@ -51,6 +53,8 @@ public class AttackInteraction : Interactable
             var targetDestination = GridHelper.GetNearestTile(transform.position + (targetLifeSystem.transform.position - transform.position).normalized * 5);
             targetLifeSystem.GetComponent<CharacterMotor>().setDestination(targetDestination);
         }
+
+        targetCombatSystem.OnConbatFinished();
     }
 
 }

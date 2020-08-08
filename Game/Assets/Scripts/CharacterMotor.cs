@@ -15,6 +15,8 @@ public class CharacterMotor : MonoBehaviour
     public bool isMoving;
     private bool isAttacking;
 
+    private bool moveTriggered = false;
+
     //public GameObject playerMarker;
     public Vector3 NextPosition { get { return agent.destination; } }
 
@@ -30,6 +32,13 @@ public class CharacterMotor : MonoBehaviour
     public void setDestination(Vector3 pos)
     {
         agent.destination = pos;
+        StartCoroutine(SetTrigger());
+    }
+
+    IEnumerator SetTrigger()
+    {
+        yield return new WaitForSeconds(1);
+        moveTriggered = true;
     }
 
     public void SetPath(NavMeshPath path)
@@ -52,11 +61,11 @@ public class CharacterMotor : MonoBehaviour
     {
         var horizontalVelocity = new Vector3(agent.velocity.x, 0, agent.velocity.z);
 
-        var oldIsMoving = isMoving;
         isMoving = horizontalVelocity.magnitude > 0.5;
 
-        if (oldIsMoving && !isMoving)
+        if (moveTriggered && !isMoving)
         {
+            moveTriggered = false;
             FinishedMoving?.Invoke();
         }
 
