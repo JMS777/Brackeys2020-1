@@ -369,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ee74b2898be419b8d15ec3e95e8e4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPoints: 3
+  actionPoints: 5
 --- !u!114 &7218562325750340982
 MonoBehaviour:
   m_ObjectHideFlags: 0
